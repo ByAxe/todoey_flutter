@@ -11,13 +11,15 @@ class TaskTiles extends StatelessWidget {
       builder: (context, taskData, child) {
         return ListView.builder(
           itemBuilder: (context, i) {
+            final Task task = taskData.tasks[i];
             return TaskTile(
-              text: taskData.tasks[i].name,
-              isChecked: taskData.tasks[i].isDone,
+              text: task.name,
+              isChecked: task.isDone,
               onChanged: (isChecked) => Provider.of<TaskData>(
                 context,
                 listen: false,
               ).toggleTask(i),
+              onLongPressCallback: () => taskData.deleteTask(task),
             );
           },
           itemCount: taskData.tasks.length,

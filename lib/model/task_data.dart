@@ -12,7 +12,7 @@ class TaskData extends ChangeNotifier {
 
   int get count => _tasks.length;
 
-  UnmodifiableListView get tasks => UnmodifiableListView(_tasks);
+  UnmodifiableListView<Task> get tasks => UnmodifiableListView<Task>(_tasks);
 
 
   void addTask(Task task) {
@@ -22,6 +22,11 @@ class TaskData extends ChangeNotifier {
 
   void toggleTask(int taskIndex) {
     _tasks[taskIndex].toggleDone();
+    notifyListeners();
+  }
+
+  void deleteTask(Task task) {
+    _tasks.remove(task);
     notifyListeners();
   }
 

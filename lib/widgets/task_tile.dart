@@ -4,6 +4,7 @@ import 'package:todoeyflutter/constants.dart';
 class TaskTile extends StatelessWidget {
   final bool isChecked;
   final Function onChanged;
+  final Function onLongPressCallback;
   final String text;
 
   const TaskTile({
@@ -11,13 +12,20 @@ class TaskTile extends StatelessWidget {
     @required this.text,
     this.isChecked = false,
     this.onChanged,
+    this.onLongPressCallback,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(),
-      child: ListTile(
+      child: _buildListTile(),
+    );
+  }
+
+  ListTile _buildListTile() {
+    return ListTile(
+      onLongPress: onLongPressCallback,
         title: Text(
           text,
           style: isChecked ? kCompleteTodoTextStyle : kIncompleteTodoTextStyle,
@@ -26,7 +34,6 @@ class TaskTile extends StatelessWidget {
           value: isChecked,
           onChanged: onChanged,
         ),
-      ),
-    );
+      );
   }
 }
