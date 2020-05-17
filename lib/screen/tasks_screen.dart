@@ -1,14 +1,39 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:todoeyflutter/constants.dart';
+import 'package:todoeyflutter/model/shared_state.dart';
+import 'package:todoeyflutter/model/task.dart';
+import 'package:todoeyflutter/screen/add_task_screen.dart';
+import 'package:todoeyflutter/widgets/task_tiles.dart';
 
-class TasksScreen extends StatelessWidget {
+class TasksScreen extends StatefulWidget {
+  @override
+  _TasksScreenState createState() => _TasksScreenState();
+}
+
+class _TasksScreenState extends State<TasksScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.lightBlueAccent,
+      backgroundColor: kMainColor,
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        backgroundColor: Colors.lightBlueAccent,
+        onPressed: () {
+          showModalBottomSheet(
+            context: context,
+            builder: (context) => AddTaskScreen(
+              onPressedAddTask: (newTaskTitle) {
+                setState(
+                  () =>
+                      Provider.of<SharedState>(context, listen: false).addTask(
+                    Task(name: newTaskTitle),
+                  ),
+                );
+                Navigator.pop(context);
+              },
+            ),
+          );
+        },
+        backgroundColor: kMainColor,
         child: Icon(
           Icons.add,
           size: 40.0,
@@ -31,7 +56,7 @@ class TasksScreen extends StatelessWidget {
                   child: Icon(
                     Icons.format_list_bulleted,
                     size: 40.0,
-                    color: Colors.lightBlueAccent,
+                    color: kMainColor,
                   ),
                   backgroundColor: Colors.white,
                   radius: 30.0,
@@ -47,12 +72,12 @@ class TasksScreen extends StatelessWidget {
                       fontWeight: FontWeight.w900),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 5.0),
+                  padding: const EdgeInsets.only(left: 8.0),
                   child: Text(
-                    '12 Tasks',
+                    '${Provider.of<SharedState>(context).tasks.length} Tasks',
                     style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20.0,
+                      color: Colors.white.withOpacity(0.7),
+                      fontSize: 18.0,
                     ),
                   ),
                 ),
@@ -61,62 +86,14 @@ class TasksScreen extends StatelessWidget {
           ),
           Expanded(
             child: Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(20.0),
-                  topRight: Radius.circular(20.0),
-                ),
+              padding: EdgeInsets.symmetric(
+                horizontal: 10.0,
               ),
-              child: Padding(
-                padding: const EdgeInsets.only(
-                  left: 50.0,
-                  top: 10.0,
-                  right: 50.0,
-                ),
-                child: ListView(
-                  children: [
-                    TodoItem(text: 'Buy milk', isComplete: false),
-                    TodoItem(text: 'Buy eggs', isComplete: false),
-                    TodoItem(text: 'Buy bread', isComplete: true),
-                  ],
-                ),
-              ),
+              decoration: kSemiRoundedBoxDecoration,
+              child: TaskTiles(tasks: Provider.of<SharedState>(context).tasks),
             ),
           )
         ],
-      ),
-    );
-  }
-}
-
-class TodoItem extends StatefulWidget {
-  final String text;
-  bool isComplete;
-
-  TodoItem({
-    Key key,
-    @required this.text,
-    @required this.isComplete,
-  }) : super(key: key);
-
-  @override
-  _TodoItemState createState() => _TodoItemState();
-}
-
-class _TodoItemState extends State<TodoItem> {
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      title: Text(
-        widget.text,
-        style: widget.isComplete
-            ? kCompleteTodoTextStyle
-            : kIncompleteTodoTextStyle,
-      ),
-      trailing: Checkbox(
-        value: widget.isComplete,
-        onChanged: (bool value) => setState(() => widget.isComplete = value),
       ),
     );
   }
