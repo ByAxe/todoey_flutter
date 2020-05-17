@@ -1,6 +1,5 @@
 import 'dart:ui';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 const Color kMainColor = Color(0xFF2078E1);
@@ -21,5 +20,19 @@ const BoxDecoration kSemiRoundedBoxDecoration = BoxDecoration(
   borderRadius: BorderRadius.only(
     topLeft: Radius.circular(20.0),
     topRight: Radius.circular(20.0),
+  ),
+);
+
+const BoxDecoration kContainerDecoration = BoxDecoration(
+  gradient: LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment(0.8, 0.5),
+    // 10% of the width, so there are ten blinds.
+    colors: [
+      Color(0xFF39b3e3),
+      Color(0xFF000bd6),
+    ],
+    // whitish to gray
+    tileMode: TileMode.repeated, // repeats the gradient over the canvas
   ),
 );
