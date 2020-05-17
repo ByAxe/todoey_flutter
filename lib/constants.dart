@@ -29,7 +29,7 @@ const BoxDecoration kContainerDecoration = BoxDecoration(
     end: Alignment(0.8, 0.5),
     // 10% of the width, so there are ten blinds.
     colors: [
-      Color(0xFF39b3e3),
+      Color(0xFF39b3f9),
       Color(0xFF000bd6),
     ],
     // whitish to gray

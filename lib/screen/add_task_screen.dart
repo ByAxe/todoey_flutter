@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 import 'package:todoeyflutter/constants.dart';
+import 'package:todoeyflutter/model/task.dart';
+import 'package:todoeyflutter/model/task_data.dart';
 import 'package:todoeyflutter/widgets/task_tiles.dart';
 
 class AddTaskScreen extends StatefulWidget {
-  final Function onPressedAddTask;
-
-  const AddTaskScreen({
-    Key key,
-    this.onPressedAddTask,
-  }) : super(key: key);
-
   @override
   _AddTaskScreenState createState() => _AddTaskScreenState();
 }
@@ -39,20 +35,39 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                 hintText: 'Enter the task name',
               ),
               autofocus: true,
-              onChanged: (newText) => setState(() => newTaskTileText = newText),
+              onChanged: (newText) {
+                setState(() {
+                  newTaskTileText = newText;
+                });
+              },
             ),
             SizedBox(
               height: 10.0,
             ),
             FlatButton(
               color: kMainColor,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(
+                  Radius.circular(
+                    10.0,
+                  ),
+                ),
+              ),
               child: Text(
                 'Add task',
                 style: TextStyle(
                   color: Colors.white,
                 ),
               ),
-              onPressed: () => widget.onPressedAddTask(newTaskTileText),
+              onPressed: () {
+                Provider.of<TaskData>(
+                  context,
+                  listen: false,
+                ).addTask(
+                  Task(name: newTaskTileText),
+                );
+                Navigator.pop(context);
+              },
             ),
           ],
         ),
