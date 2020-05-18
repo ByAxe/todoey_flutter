@@ -36,3 +36,11 @@ const BoxDecoration kContainerDecoration = BoxDecoration(
     tileMode: TileMode.repeated, // repeats the gradient over the canvas
   ),
 );
+
+const kTaskInputDecoration = InputDecoration(
+  border: InputBorder.none,
+  focusedBorder: InputBorder.none,
+  enabledBorder: InputBorder.none,
+  errorBorder: InputBorder.none,
+  disabledBorder: InputBorder.none,
+);

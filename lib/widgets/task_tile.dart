@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:todoeyflutter/constants.dart';
 
 class TaskTile extends StatelessWidget {
   final bool isChecked;
   final Function onChanged;
-  final Function onLongPressCallback;
+  final Function onPressRemove;
+  final Function onTaskTextChanged;
   final String text;
 
   const TaskTile({
@@ -12,7 +14,8 @@ class TaskTile extends StatelessWidget {
     @required this.text,
     this.isChecked = false,
     this.onChanged,
-    this.onLongPressCallback,
+    this.onPressRemove,
+    this.onTaskTextChanged,
   }) : super(key: key);
 
   @override
@@ -24,16 +27,27 @@ class TaskTile extends StatelessWidget {
   }
 
   ListTile _buildListTile() {
+
     return ListTile(
-      onLongPress: onLongPressCallback,
-        title: Text(
-          text,
-          style: isChecked ? kCompleteTodoTextStyle : kIncompleteTodoTextStyle,
-        ),
-        leading: Checkbox(
-          value: isChecked,
-          onChanged: onChanged,
-        ),
-      );
+      title: TextField(
+        controller: TextEditingController(text: text),
+        style: isChecked ? kCompleteTodoTextStyle : kIncompleteTodoTextStyle,
+        decoration: kTaskInputDecoration,
+        onSubmitted: onTaskTextChanged,
+      ),
+      leading: Checkbox(
+        value: isChecked,
+        onChanged: onChanged,
+      ),
+      trailing: isChecked
+          ? GestureDetector(
+              child: Icon(
+                FontAwesomeIcons.trash,
+                size: 20.0,
+              ),
+              onTap: onPressRemove,
+            )
+          : null,
+    );
   }
 }

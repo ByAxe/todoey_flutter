@@ -14,7 +14,6 @@ class TaskData extends ChangeNotifier {
 
   UnmodifiableListView<Task> get tasks => UnmodifiableListView<Task>(_tasks);
 
-
   void addTask(Task task) {
     _tasks.add(task);
     notifyListeners();
@@ -30,4 +29,8 @@ class TaskData extends ChangeNotifier {
     notifyListeners();
   }
 
+  void updateName(int i, newName) {
+    _tasks[i].name = newName;
+    notifyListeners();
+  }
 }

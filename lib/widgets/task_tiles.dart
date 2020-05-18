@@ -19,7 +19,11 @@ class TaskTiles extends StatelessWidget {
                 context,
                 listen: false,
               ).toggleTask(i),
-              onLongPressCallback: () => taskData.deleteTask(task),
+              onPressRemove: () => taskData.deleteTask(task),
+              onTaskTextChanged: (newName) => Provider.of<TaskData>(
+                context,
+                listen: false,
+              ).updateName(i, newName),
             );
           },
           itemCount: taskData.tasks.length,

@@ -18,6 +18,7 @@ class MyApp extends StatelessWidget {
           textTheme: GoogleFonts.bellotaTextTextTheme(
             Theme.of(context).textTheme,
           ),
+          visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
         home: TasksScreen(),
       ),
